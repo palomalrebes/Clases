@@ -173,7 +173,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
     </div>
     <div class="pack-card" onclick="elegirPack(this,12,150)">
       <div class="pack-hs">12</div><div class="pack-hs-label">hs / mes</div>
-      <div class="pack-price">$150</div><div class="pack-price-label">por mes</div>
+      <div class="pack-price">$156</div><div class="pack-price-label">por mes</div>
       <hr class="pack-divider"><div class="pack-per-hora">$13 / hora</div>
       <div class="pack-save">ahorrás $30</div>
     </div>
@@ -308,17 +308,13 @@ const alumnos = [
 ];
 // ── FIN ALUMNOS ──────────────────────────────────────────────────
 
-const vacaciones = new Set(["2026-05-28","2026-05-29","2026-05-30","2026-05-31","2026-06-01","2026-06-02","2026-06-03","2026-06-04"]);
-const dotCls = { pendiente:"d-ok", falto:"d-falto", reagendada:"d-reag", pendiente:"d-pend" };
-const estCls = { pendiente:"c-ok", falto:"c-falto", reagendada:"c-reag", pendiente:"c-pend" };
-const estLabel = { pendiente:"pendiente", falto:"Faltó", reagendada:"Reagendada", pendiente:"Pendiente" };
-const calEstCls = { pendiente:"pendiente", falto:"falto", reagendada:"reagendada" };
-const palExp = {};
+const dotCls = { pendiente: "d-pend", reagendada: "d-reag" };
+const estCls = { pendiente: "c-pend", reagendada: "c-reag" };
+const estLabel = { pendiente: "Pendiente", reagendada: "Reprogramada" };
+const calEstCls = { pendiente: "pendiente", reagendada: "reagendada" };
 
 function initials(n) { return n.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase(); }
-function formatFecha(iso) { const [,m,d] = iso.split("-"); return `${d}/${m}`; }
-
-function elegirPack(el, hs, precio) {
+function formatFecha(iso) { const [,m,d] = iso.split("-"); return `${d}/${m}`; } 
   document.querySelectorAll(".pack-card").forEach(c => c.classList.remove("selected"));
   el.classList.add("selected");
   document.getElementById("pago-monto").textContent = `$${precio}`;

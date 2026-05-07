@@ -552,7 +552,7 @@ function renderAlumnoView(a) {
   document.getElementById("alumno-view").innerHTML = `
     <div class="alumno-header">
       <div class="av-avatar">${initials(a.nombre)}</div>
-      <div><div class="av-name">${a.nombre}</div><div class="av-pack">${a.pack ? "Pack "+a.pack+"hs" : "Pack por confirmar"} · Mayo 2026</div></div>
+      <div><div class="av-name">${a.nombre}</div><div class="av-pack">${a.pack ? "Pack "+a.pack+"hs" : "Pack por confirmar"} · Mayo 2026</div><div class="av-pack" style="margin-top:2px">🕐 ${a.horario}</div></div>
       <button class="logout-btn" onclick="logoutAlumno()">Salir</button>
     </div>
     ${pagoHtml}${notaHtml}

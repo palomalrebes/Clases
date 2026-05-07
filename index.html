@@ -314,15 +314,17 @@ const estLabel = { pendiente: "Pendiente", reagendada: "Reprogramada" };
 const calEstCls = { pendiente: "pendiente", reagendada: "reagendada" };
 
 function initials(n) { return n.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase(); }
-function formatFecha(iso) { const [,m,d] = iso.split("-"); return `${d}/${m}`; } 
-  document.querySelectorAll(".pack-card").forEach(c => c.classList.remove("selected"));
-  el.classList.add("selected");
-  document.getElementById("pago-monto").textContent = `$${precio}`;
-  document.getElementById("pago-detalle").textContent = `Pack ${hs} hs · transferencia bancaria`;
-  document.getElementById("pago-box").classList.add("visible");
-  document.getElementById("copy-btn").textContent = "Copiar";
-  document.getElementById("copy-btn").classList.remove("copiado");
-  document.getElementById("pago-box").scrollIntoView({ behavior:"smooth", block:"nearest" });
+function formatFecha(iso) { const [y,m,d] = iso.split("-"); return `${d}/${m}`; }
+
+function elegirPack(el, hs, precio) {
+    document.querySelectorAll(".pack-card").forEach(c => c.classList.remove("selected"));
+    el.classList.add("selected");
+    document.getElementById("pago-monto").textContent = `$${precio}`;
+    document.getElementById("pago-detalle").textContent = `Pack ${hs} hs - transferencia bancaria`;
+    document.getElementById("pago-box").classList.add("visible");
+    document.getElementById("copy-btn").textContent = "Copiar";
+    document.getElementById("copy-btn").classList.remove("copiado");
+    document.getElementById("pago-box").scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
 function copiarAlias() {
@@ -468,10 +470,10 @@ function logoutPaloma() {
 }
 
 function showTab(tab, btn) {
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById("tab-"+tab).classList.add("active");
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + tab).classList.add("active");
 }
 </script>
 </body>

@@ -324,11 +324,29 @@ const alumnosBase = [
     horario: "Lunes 10:00–12:00 y viernes 11:00–12:00",
     nota: "Última clase: lunes 26. Retoma viernes 5 de junio.",
     clases: [
-      { fecha: "2026-05-04" },
+      { fecha: "2026-05-04", horas: 2 },
       { fecha: "2026-05-08" },
-      { fecha: "2026-05-11" },
+      { fecha: "2026-05-11", horas: 2 },
       { fecha: "2026-05-15" },
+      { fecha: "2026-05-25", horas: 2 },
+    ]
+  },
+  {
+    nombre: "Misha",
+    codigo: "Misha2026",
+    pack: 6,
+    precioHora: 14,
+    descuento: 0,
+    drive: "https://drive.google.com/drive/folders/1fy4HjwNbl9Bl8140X1-6ZpqLT2YOAl1v?usp=sharing",
+    horario: "Lunes y miércoles 17:00–18:00, sábados 14:00–15:00",
+    nota: "",
+    clases: [
+      { fecha: "2026-05-16" },
+      { fecha: "2026-05-18" },
+      { fecha: "2026-05-20" },
+      { fecha: "2026-05-23" },
       { fecha: "2026-05-25" },
+      { fecha: "2026-05-27" },
     ]
   },
 ];
@@ -538,8 +556,8 @@ document.getElementById("login-input").addEventListener("keydown", e => { if (e.
 cargarDatos();
 
 function renderAlumnoView(a) {
-  const tomadas = a.clases.filter(c => c.estado === "realizada").length;
-  const pendientes = a.clases.filter(c => c.estado === "pendiente").length;
+  const tomadas = a.clases.filter(c => c.estado === "realizada").reduce((acc, c) => acc + (c.horas || 1), 0);
+  const pendientes = a.clases.filter(c => c.estado === "pendiente").reduce((acc, c) => acc + (c.horas || 1), 0);
   const packTotal = a.pack || 8;
   const rest = Math.max(0, packTotal - tomadas);
   const pct = Math.min(100, Math.round(tomadas / packTotal * 100));
@@ -567,7 +585,7 @@ function renderAlumnoView(a) {
     </div>
     <div class="cal-card">${buildCal(a.clases, 2026, 4)}</div>
     <div class="clases-card"><div class="prog-title">Tus clases</div>${clasesHtml}</div>
-    <a class="drive-btn" href="${a.drive}" target="_blank">Ver materiales de clase en Drive</a>
+    ${a.drive ? `<a class="drive-btn" href="${a.drive}" target="_blank">Ver materiales de clase en Drive</a>` : ""}
     <a class="wa-btn" href="https://wa.me/?text=${msg}">Escribirle a Paloma por WhatsApp</a>`;
 }
 
@@ -590,7 +608,7 @@ document.getElementById("pal-input").addEventListener("keydown", e => { if (e.ke
 function renderPalomaView() {
   let html = `<span class="section-label">Tus alumnos — Mayo 2026</span>`;
   alumnos.forEach((a, i) => {
-    const tomadas = a.clases.filter(c => c.estado === "pendiente").length;
+    const tomadas = a.clases.filter(c => c.estado === "realizada").reduce((acc, c) => acc + (c.horas || 1), 0);
     const packTotal = a.pack || 8;
     const rest = Math.max(0, packTotal - tomadas);
     const pct = Math.min(100, Math.round(tomadas / packTotal * 100));
@@ -613,7 +631,7 @@ function renderPalomaView() {
       <div class="pal-barra-track"><div class="pal-barra-fill ${verde?"verde":""}" style="width:${pct}%"></div></div>
       <button class="toggle-btn" onclick="palToggle(${i})">${palExp[i]?"Ocultar detalle ▲":"Ver clases y calendario ▼"}</button>
       ${palExp[i]?`<div class="cal-card" style="margin-top:8px">${buildCal(a.clases,2026,4)}</div><div class="clases-card" style="margin-top:8px">${clasesHtml}</div>`:""}
-      <a class="drive-btn" style="margin-top:8px;display:block;text-decoration:none" href="${a.drive}" target="_blank">Ver carpeta de Drive</a>
+      ${a.drive ? `<a class="drive-btn" style="margin-top:8px;display:block;text-decoration:none" href="${a.drive}" target="_blank">Ver carpeta de Drive</a>` : ""}
       <a class="wa-btn" style="display:block;text-decoration:none" href="https://wa.me/?text=${msg}">Mandar estado por WhatsApp</a>
     </div>`;
   });

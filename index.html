@@ -128,6 +128,9 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
 .copy-btn.copiado { background: var(--green); }
 .pago-nota { font-size: 11px; color: var(--muted); line-height: 1.5; }
 .pago-nota strong { color: var(--text); }
+.mes-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.mes-tab { flex: 1; padding: 6px 4px; background: #ede0f2; color: var(--iris); border: none; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.mes-tab.active { background: var(--iris); color: #fff; }
 .intro-banner { background: linear-gradient(135deg,#f8f0fa,#f0f7ee); border: 1.5px solid var(--border); border-radius: 16px; padding: 0.9rem 1rem; margin-bottom: 1rem; font-size: 13px; color: var(--muted); line-height: 1.65; }
 .intro-banner strong { color: var(--text); }
 .info-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 16px; padding: 1rem; font-size: 13px; color: var(--muted); line-height: 1.7; margin-top: 1rem; }
@@ -261,93 +264,145 @@ const alumnosBase = [
   {
     nombre: "Emilia",
     codigo: "Emi2026",
-    pack: 8,
-    precioHora: 14,
-    descuento: 56,
     drive: "https://drive.google.com/drive/folders/1nEbVbEk_j23UU5qWWZcwu_1kKWE1FJ4o?usp=drive_link",
     horario: "Martes y jueves 16:30–17:30",
-    nota: "Lunes 25 (14–15hs): recuperación del jueves. Última semana: lunes 26 y martes 27. Retoma martes 9 de junio.",
-    clases: [
-      { fecha: "2026-05-05" },
-      { fecha: "2026-05-07" },
-      { fecha: "2026-05-12" },
-      { fecha: "2026-05-14" },
-      { fecha: "2026-05-19" },
-      { fecha: "2026-05-21" },
-      { fecha: "2026-05-25" },
-      { fecha: "2026-05-26" },
+    meses: [
+      {
+        mes: "2026-05", label: "Mayo 2026",
+        pack: 8, precioHora: 14, descuento: 56, nota: "Lunes 25 (14–15hs): recuperación del jueves. Última semana: lunes 26 y martes 27.",
+        clases: [
+          { fecha: "2026-05-05" }, { fecha: "2026-05-07" }, { fecha: "2026-05-12" },
+          { fecha: "2026-05-14" }, { fecha: "2026-05-19" }, { fecha: "2026-05-21" },
+          { fecha: "2026-05-25" }, { fecha: "2026-05-26" },
+        ]
+      },
+      {
+        mes: "2026-06", label: "Junio 2026",
+        pack: 8, precioHora: 14, descuento: 28, nota: "2 clases de mayo a tu favor (descuento $28 aplicado). Retoma martes 9 de junio.",
+        clases: [
+          { fecha: "2026-06-09" }, { fecha: "2026-06-10" }, { fecha: "2026-06-16" },
+          { fecha: "2026-06-17" }, { fecha: "2026-06-23" }, { fecha: "2026-06-24" },
+          { fecha: "2026-06-30" },
+        ]
+      },
     ]
   },
   {
     nombre: "Laura",
     codigo: "Laura2026",
-    pack: 8,
-    precioHora: 14,
-    descuento: 84,
     drive: "https://drive.google.com/drive/folders/1WG4XU1MDKNriif_t9L542HaI10KdTKX7?usp=drive_link",
     horario: "Jueves 2hs",
-    nota: "Excepción este mes: miércoles 27 en vez del jueves. Retoma jueves 11 de junio.",
-    clases: [
-      { fecha: "2026-05-07" },
-      { fecha: "2026-05-14" },
-      { fecha: "2026-05-21" },
-      { fecha: "2026-05-22" },
-      { fecha: "2026-05-27" },
+    meses: [
+      {
+        mes: "2026-05", label: "Mayo 2026",
+        pack: 8, precioHora: 14, descuento: 84, nota: "Excepción este mes: miércoles 27 en vez del jueves.",
+        clases: [
+          { fecha: "2026-05-07" }, { fecha: "2026-05-14" }, { fecha: "2026-05-21" },
+          { fecha: "2026-05-22" }, { fecha: "2026-05-27" },
+        ]
+      },
+      {
+        mes: "2026-06", label: "Junio 2026",
+        pack: 8, precioHora: 14, descuento: 0, nota: "",
+        clases: [
+          { fecha: "2026-06-05" }, { fecha: "2026-06-12" }, { fecha: "2026-06-19" },
+          { fecha: "2026-06-26" },
+        ]
+      },
     ]
   },
   {
     nombre: "Pavel",
     codigo: "Pavel2026",
-    pack: null,
-    precioHora: 15,
-    descuento: 0,
     drive: "https://drive.google.com/drive/folders/1QZMIYKdOMg38IkixJKeg8VxWP6djghm8?usp=drive_link",
     horario: "Miércoles y viernes 10:00–11:00",
-    nota: "Pack por confirmar. Última clase: miércoles 27. Retoma viernes 5 de junio.",
-    clases: [
-      { fecha: "2026-05-06" },
-      { fecha: "2026-05-08" },
-      { fecha: "2026-05-13" },
-      { fecha: "2026-05-15" },
-      { fecha: "2026-05-20" },
-      { fecha: "2026-05-22" },
-      { fecha: "2026-05-27" },
+    meses: [
+      {
+        mes: "2026-05", label: "Mayo 2026",
+        pack: null, precioHora: 15, descuento: 0, nota: "Pack por confirmar. Última clase: miércoles 27.",
+        clases: [
+          { fecha: "2026-05-06" }, { fecha: "2026-05-08" }, { fecha: "2026-05-13" },
+          { fecha: "2026-05-15" }, { fecha: "2026-05-20" }, { fecha: "2026-05-22" },
+          { fecha: "2026-05-27" },
+        ]
+      },
+      {
+        mes: "2026-06", label: "Junio 2026",
+        pack: null, precioHora: 15, descuento: 0, nota: "",
+        clases: [
+          { fecha: "2026-06-03" }, { fecha: "2026-06-05" }, { fecha: "2026-06-10" },
+          { fecha: "2026-06-12" }, { fecha: "2026-06-17" }, { fecha: "2026-06-19" },
+          { fecha: "2026-06-24" }, { fecha: "2026-06-26" },
+        ]
+      },
     ]
   },
   {
     nombre: "Dasha",
     codigo: "Dasha2026",
-    pack: null,
-    precioHora: 13,
-    descuento: 0,
     drive: "https://drive.google.com/drive/folders/1vYrVfEkdLTRX27G9riWPrNCDYfTPdrPj?usp=drive_link",
     horario: "Lunes 10:00–12:00 y viernes 11:00–12:00",
-    nota: "Última clase: lunes 26. Retoma viernes 5 de junio.",
-    clases: [
-      { fecha: "2026-05-04", horas: 2 },
-      { fecha: "2026-05-08" },
-      { fecha: "2026-05-11", horas: 2 },
-      { fecha: "2026-05-15" },
-      { fecha: "2026-05-18", horas: 2 },
-      { fecha: "2026-05-22" },
+    meses: [
+      {
+        mes: "2026-05", label: "Mayo 2026",
+        pack: null, precioHora: 13, descuento: 0, nota: "Última clase: lunes 26.",
+        clases: [
+          { fecha: "2026-05-04", horas: 2 }, { fecha: "2026-05-08" },
+          { fecha: "2026-05-11", horas: 2 }, { fecha: "2026-05-15" },
+          { fecha: "2026-05-18", horas: 2 }, { fecha: "2026-05-22" },
+        ]
+      },
+      {
+        mes: "2026-06", label: "Junio 2026",
+        pack: null, precioHora: 13, descuento: 0, nota: "",
+        clases: [
+          { fecha: "2026-06-05" }, { fecha: "2026-06-08", horas: 2 },
+          { fecha: "2026-06-12" }, { fecha: "2026-06-15", horas: 2 },
+          { fecha: "2026-06-19" }, { fecha: "2026-06-22", horas: 2 },
+          { fecha: "2026-06-26" },
+        ]
+      },
     ]
   },
   {
     nombre: "Misha",
     codigo: "Misha2026",
-    pack: 12,
-    precioHora: 13,
-    descuento: 0,
     drive: "https://drive.google.com/drive/folders/1fy4HjwNbl9Bl8140X1-6ZpqLT2YOAl1v?usp=sharing",
     horario: "Lunes y miércoles 17:00–18:00, sábados 14:00–15:00",
-    nota: "Última clase: miércoles 27. Retoma sábado 6 de junio.",
-    clases: [
-      { fecha: "2026-05-16" },
-      { fecha: "2026-05-18" },
-      { fecha: "2026-05-20" },
-      { fecha: "2026-05-23" },
-      { fecha: "2026-05-25" },
-      { fecha: "2026-05-27" },
+    meses: [
+      {
+        mes: "2026-05", label: "Mayo 2026",
+        pack: 12, precioHora: 13, descuento: 0, nota: "Pack de 12hs. Clases realizadas: 5.",
+        clases: [
+          { fecha: "2026-05-16" }, { fecha: "2026-05-18" }, { fecha: "2026-05-20" },
+          { fecha: "2026-05-23" }, { fecha: "2026-05-25" }, { fecha: "2026-05-27" },
+        ]
+      },
+      {
+        mes: "2026-06", label: "Junio 2026",
+        pack: 7, precioHora: 13, descuento: 0, nota: "Pack ya pago (12hs totales, 5 hechas en mayo). Este mes terminamos las 7 clases restantes.",
+        clases: [
+          { fecha: "2026-06-08" }, { fecha: "2026-06-10" }, { fecha: "2026-06-13" },
+          { fecha: "2026-06-15" }, { fecha: "2026-06-17" }, { fecha: "2026-06-20" },
+          { fecha: "2026-06-22" },
+        ]
+      },
+    ]
+  },
+  {
+    nombre: "Maca",
+    codigo: "Maca2026",
+    drive: "https://drive.google.com/drive/folders/15FMFo5WOsqfo2Dq-H9iWyCNBZiHZVYjV",
+    horario: "Jueves 18:00–19:00",
+    meses: [
+      {
+        mes: "2026-06", label: "Junio 2026",
+        pack: 4, precioHora: 15, descuento: 0, nota: "",
+        clases: [
+          { fecha: "2026-06-05" }, { fecha: "2026-06-12" },
+          { fecha: "2026-06-19" }, { fecha: "2026-06-26" },
+        ]
+      },
     ]
   },
 ];
@@ -362,23 +417,31 @@ async function cargarDatos() {
     const estados = await resp.json(); // { "Emilia|2026-05-05": "realizada", ... }
     alumnos = alumnosBase.map(a => ({
       ...a,
-      clases: a.clases.map(c => ({
-        ...c,
-        estado: estados[a.nombre + "|" + c.fecha] || "pendiente"
+      meses: a.meses.map(m => ({
+        ...m,
+        clases: m.clases.map(c => ({
+          ...c,
+          estado: estados[a.nombre + "|" + c.fecha] || "pendiente"
+        }))
       }))
     }));
   } catch(e) {
-    // Si falla la carga, usar pendiente como default
     alumnos = alumnosBase.map(a => ({
       ...a,
-      clases: a.clases.map(c => ({ ...c, estado: "pendiente" }))
+      meses: a.meses.map(m => ({
+        ...m,
+        clases: m.clases.map(c => ({ ...c, estado: "pendiente" }))
+      }))
     }));
     console.warn("No se pudo cargar desde Sheets, usando datos por defecto.");
   }
   palExp = alumnos.map(() => false);
+  palMesIdx = alumnos.map(a => a.meses.length - 1); // default: último mes (más reciente)
 }
 
 let palExp = [];
+let palMesIdx = [];
+let alumnoMesIdx = {}; // { codigo: mesIndex }
 const vacaciones = new Set();
 
 const dotCls = { pendiente: "d-pend", realizada: "d-ok", falto: "d-falto", reagendada: "d-pend", reagendar: "d-pend" };
@@ -557,26 +620,30 @@ document.getElementById("login-input").addEventListener("keydown", e => { if (e.
 cargarDatos();
 
 function renderAlumnoView(a) {
-  const tomadas = a.clases.filter(c => c.estado === "realizada").reduce((acc, c) => acc + (c.horas || 1), 0);
-  const pendientes = a.clases.filter(c => c.estado === "pendiente").reduce((acc, c) => acc + (c.horas || 1), 0);
-  const packTotal = a.pack || 8;
+  const idx = alumnoMesIdx[a.codigo] !== undefined ? alumnoMesIdx[a.codigo] : a.meses.length - 1;
+  const m = a.meses[idx];
+  const tomadas = m.clases.filter(c => c.estado === "realizada").reduce((acc, c) => acc + (c.horas || 1), 0);
+  const packTotal = m.pack || 8;
   const rest = Math.max(0, packTotal - tomadas);
   const pct = Math.min(100, Math.round(tomadas / packTotal * 100));
-  const precioNormal = packTotal * a.precioHora;
-  const aPagar = Math.max(0, precioNormal - a.descuento);
-  const pagoHtml = a.descuento > 0 ? `<div class="pago-card"><strong>Pago este mes (transición)</strong><br>Pack ${packTotal}hs: $${precioNormal} — Descuento clases a favor: $${a.descuento}<br><strong>Total a pagar: $${aPagar}</strong><br><span style="font-size:11px">Desde junio: $${precioNormal}/mes</span></div>` : "";
-  const notaHtml = a.nota ? `<div class="pago-card" style="background:#f0f7ee;border-color:#b8dab3;color:#2d4a2a"><strong>Calendario especial este mes</strong><br>${a.nota}</div>` : "";
-  const clasesHtml = a.clases.map(c => `<div class="clase-row"><div class="clase-dot ${dotCls[c.estado]}"></div><span class="clase-fecha">${formatFecha(c.fecha)}</span><span class="clase-est ${estCls[c.estado]}">${estLabel[c.estado]}</span></div>`).join("");
+  const precioNormal = packTotal * m.precioHora;
+  const aPagar = Math.max(0, precioNormal - m.descuento);
+  const pagoHtml = m.descuento > 0 ? `<div class="pago-card"><strong>Pago este mes</strong><br>Pack ${packTotal}hs: $${precioNormal} — Descuento clases a favor: $${m.descuento}<br><strong>Total a pagar: $${aPagar}</strong></div>` : "";
+  const notaHtml = m.nota ? `<div class="pago-card" style="background:#f0f7ee;border-color:#b8dab3;color:#2d4a2a"><strong>Nota</strong><br>${m.nota}</div>` : "";
+  const clasesHtml = m.clases.map(c => `<div class="clase-row"><div class="clase-dot ${dotCls[c.estado]}"></div><span class="clase-fecha">${formatFecha(c.fecha)}</span><span class="clase-est ${estCls[c.estado]}">${estLabel[c.estado]}</span></div>`).join("");
+  const mesTabs = a.meses.length > 1 ? `<div class="mes-tabs">${a.meses.map((mes, i) => `<button class="mes-tab ${i===idx?"active":""}" onclick="setAlumnoMes('${a.codigo}',${i})">${mes.label}</button>`).join("")}</div>` : "";
+  const [yr, mo] = m.mes.split("-").map(Number);
   const msg = encodeURIComponent(`Hola Paloma! Soy ${a.nombre}, quería consultarte sobre mis clases.`);
   document.getElementById("alumno-view").innerHTML = `
     <div class="alumno-header">
       <div class="av-avatar">${initials(a.nombre)}</div>
-      <div><div class="av-name">${a.nombre}</div><div class="av-pack">${a.pack ? "Pack "+a.pack+"hs" : "Pack por confirmar"} · Mayo 2026</div><div class="av-pack" style="margin-top:2px">🕐 ${a.horario}</div></div>
+      <div><div class="av-name">${a.nombre}</div><div class="av-pack">${m.pack ? "Pack "+m.pack+"hs" : "Pack por confirmar"} · ${m.label}</div><div class="av-pack" style="margin-top:2px">🕐 ${a.horario}</div></div>
       <button class="logout-btn" onclick="logoutAlumno()">Salir</button>
     </div>
+    ${mesTabs}
     ${pagoHtml}${notaHtml}
     <div class="progress-card">
-      <div class="prog-title">Tu pack este mes</div>
+      <div class="prog-title">Tu pack — ${m.label}</div>
       <div class="prog-nums">
         <div class="prog-num"><div class="prog-n">${tomadas}</div><div class="prog-l">realizadas</div></div>
         <div class="prog-num"><div class="prog-n">${rest}</div><div class="prog-l">restantes</div></div>
@@ -584,10 +651,16 @@ function renderAlumnoView(a) {
       </div>
       <div class="barra-track"><div class="barra-fill ${rest===0?"verde":""}" style="width:${pct}%"></div></div>
     </div>
-    <div class="cal-card">${buildCal(a.clases, 2026, 4)}</div>
+    <div class="cal-card">${buildCal(m.clases, yr, mo - 1)}</div>
     <div class="clases-card"><div class="prog-title">Tus clases</div>${clasesHtml}</div>
     ${a.drive ? `<a class="drive-btn" href="${a.drive}" target="_blank">Ver materiales de clase en Drive</a>` : ""}
     <a class="wa-btn" href="https://wa.me/?text=${msg}">Escribirle a Paloma por WhatsApp</a>`;
+}
+
+function setAlumnoMes(codigo, idx) {
+  alumnoMesIdx[codigo] = idx;
+  const a = alumnos.find(x => x.codigo === codigo);
+  renderAlumnoView(a);
 }
 
 function logoutAlumno() {
@@ -607,31 +680,38 @@ function doPalLogin() {
 document.getElementById("pal-input").addEventListener("keydown", e => { if (e.key === "Enter") doPalLogin(); });
 
 function renderPalomaView() {
-  let html = `<span class="section-label">Tus alumnos — Mayo 2026</span>`;
+  const now = new Date();
+  const mesActual = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}`;
+  let html = `<span class="section-label">Tus alumnos</span>`;
   alumnos.forEach((a, i) => {
-    const tomadas = a.clases.filter(c => c.estado === "realizada").reduce((acc, c) => acc + (c.horas || 1), 0);
-    const packTotal = a.pack || 8;
+    const idx = palMesIdx[i] !== undefined ? palMesIdx[i] : a.meses.length - 1;
+    const m = a.meses[idx];
+    const tomadas = m.clases.filter(c => c.estado === "realizada").reduce((acc, c) => acc + (c.horas || 1), 0);
+    const packTotal = m.pack || 8;
     const rest = Math.max(0, packTotal - tomadas);
     const pct = Math.min(100, Math.round(tomadas / packTotal * 100));
     const verde = rest === 0;
     let estClass = "est-inicio", estTxt = "Sin iniciar";
     if (tomadas > 0 && rest > 0) { estClass = "est-curso"; estTxt = "En curso"; }
     else if (rest <= 0 && tomadas > 0) { estClass = "est-completo"; estTxt = "Completo"; }
-    const precioNormal = packTotal * a.precioHora;
-    const aPagar = Math.max(0, precioNormal - a.descuento);
-    const clasesHtml = a.clases.map(c => `<div class="clase-row"><div class="clase-dot ${dotCls[c.estado]}"></div><span class="clase-fecha">${formatFecha(c.fecha)}</span><span class="clase-est ${estCls[c.estado]}">${estLabel[c.estado]}</span></div>`).join("");
-    const msg = encodeURIComponent(`Hola ${a.nombre}! Te cuento cómo vas este mes: tenés ${tomadas} clase${tomadas!==1?"s":""} pendiente${tomadas!==1?"s":""} y te quedan ${rest} hora${rest!==1?"s":""}. ${rest===0?"Pack completo, genial!":"Cualquier cosa me avisás."}`);
+    const precioNormal = packTotal * m.precioHora;
+    const aPagar = Math.max(0, precioNormal - m.descuento);
+    const clasesHtml = m.clases.map(c => `<div class="clase-row"><div class="clase-dot ${dotCls[c.estado]}"></div><span class="clase-fecha">${formatFecha(c.fecha)}</span><span class="clase-est ${estCls[c.estado]}">${estLabel[c.estado]}</span></div>`).join("");
+    const msg = encodeURIComponent(`Hola ${a.nombre}! Te cuento cómo vas este mes: tenés ${tomadas} clase${tomadas!==1?"s":""} realizadas y te quedan ${rest} hora${rest!==1?"s":""}. ${rest===0?"Pack completo, genial!":"Cualquier cosa me avisás."}`);
+    const mesTabs = a.meses.length > 1 ? `<div class="mes-tabs" style="margin-bottom:8px">${a.meses.map((mes, j) => `<button class="mes-tab ${j===idx?"active":""}" onclick="palSetMes(${i},${j})">${mes.label}</button>`).join("")}</div>` : "";
+    const [yr, mo] = m.mes.split("-").map(Number);
     html += `<div class="pal-alumno-card">
       <div class="pal-top">
         <div class="pal-avatar">${initials(a.nombre)}</div>
-        <div><div class="pal-nombre">${a.nombre}</div><div class="pal-pack">${a.pack?"Pack "+a.pack+"hs":"Por confirmar"} · ${a.horario} · código: ${a.codigo}</div></div>
+        <div><div class="pal-nombre">${a.nombre}</div><div class="pal-pack">${m.pack?"Pack "+m.pack+"hs":"Por confirmar"} · ${a.horario} · código: ${a.codigo}</div></div>
         <div class="pal-estado ${estClass}">${estTxt}</div>
       </div>
-      ${a.descuento>0?`<div class="pago-card" style="margin-bottom:8px;font-size:12px">Este mes paga <strong>$${aPagar}</strong> (descuento $${a.descuento}). Desde junio: $${precioNormal}/mes.</div>`:""}
-      <div class="pal-nums"><span>${tomadas} pendientes</span><span>${rest} restantes de ${packTotal}hs</span></div>
+      ${mesTabs}
+      ${m.descuento>0?`<div class="pago-card" style="margin-bottom:8px;font-size:12px">Este mes paga <strong>$${aPagar}</strong> (descuento $${m.descuento}).</div>`:""}
+      <div class="pal-nums"><span>${tomadas} realizadas</span><span>${rest} restantes de ${packTotal}hs</span></div>
       <div class="pal-barra-track"><div class="pal-barra-fill ${verde?"verde":""}" style="width:${pct}%"></div></div>
       <button class="toggle-btn" onclick="palToggle(${i})">${palExp[i]?"Ocultar detalle ▲":"Ver clases y calendario ▼"}</button>
-      ${palExp[i]?`<div class="cal-card" style="margin-top:8px">${buildCal(a.clases,2026,4)}</div><div class="clases-card" style="margin-top:8px">${clasesHtml}</div>`:""}
+      ${palExp[i]?`<div class="cal-card" style="margin-top:8px">${buildCal(m.clases, yr, mo-1)}</div><div class="clases-card" style="margin-top:8px">${clasesHtml}</div>`:""}
       ${a.drive ? `<a class="drive-btn" style="margin-top:8px;display:block;text-decoration:none" href="${a.drive}" target="_blank">Ver carpeta de Drive</a>` : ""}
       <a class="wa-btn" style="display:block;text-decoration:none" href="https://wa.me/?text=${msg}">Mandar estado por WhatsApp</a>
     </div>`;
@@ -640,7 +720,7 @@ function renderPalomaView() {
   document.getElementById("pal-view").innerHTML = html;
 }
 
-function palToggle(i) { palExp[i] = !palExp[i]; renderPalomaView(); }
+function palSetMes(i, j) { palMesIdx[i] = j; renderPalomaView(); }
 function logoutPaloma() {
   document.getElementById("pal-view").style.display = "none";
   document.getElementById("pal-view").innerHTML = "";

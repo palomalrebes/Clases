@@ -397,10 +397,10 @@ const alumnosBase = [
     meses: [
       {
         mes: "2026-06", label: "Junio 2026",
-        pack: 4, precioHora: 15, descuento: 0, nota: "",
+        pack: 3, precioHora: 15, descuento: 0, nota: "Inicio: jueves 11 de junio.",
         clases: [
-          { fecha: "2026-06-05" }, { fecha: "2026-06-12" },
-          { fecha: "2026-06-19" }, { fecha: "2026-06-26" },
+          { fecha: "2026-06-11" }, { fecha: "2026-06-18" },
+          { fecha: "2026-06-25" },
         ]
       },
     ]
@@ -413,7 +413,8 @@ let alumnos = [];
 // Carga los estados desde Google Sheets y los combina con alumnosBase
 async function cargarDatos() {
   try {
-    const resp = await fetch(SHEETS_URL);
+    const resp = await fetch(SHEETS_URL, { redirect: "follow" });
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
     const estados = await resp.json(); // { "Emilia|2026-05-05": "realizada", ... }
     alumnos = alumnosBase.map(a => ({
       ...a,
@@ -433,7 +434,7 @@ async function cargarDatos() {
         clases: m.clases.map(c => ({ ...c, estado: "pendiente" }))
       }))
     }));
-    console.warn("No se pudo cargar desde Sheets, usando datos por defecto.");
+    console.warn("Error cargando Sheets:", e.message, e);
   }
   palExp = alumnos.map(() => false);
   palMesIdx = alumnos.map(a => a.meses.length - 1); // default: último mes (más reciente)

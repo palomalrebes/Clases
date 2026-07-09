@@ -170,29 +170,29 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
   <div class="packs-grid">
     <div class="pack-card" onclick="elegirPack(this,4,60)">
       <div class="pack-hs">4</div><div class="pack-hs-label">hs / mes</div>
-      <div class="pack-price">$60</div><div class="pack-price-label">por mes</div>
-      <hr class="pack-divider"><div class="pack-per-hora">$15 / hora</div>
+      <div class="pack-price">AR$60</div><div class="pack-price-label">por mes</div>
+      <hr class="pack-divider"><div class="pack-per-hora">AR$15 / hora</div>
     </div>
     <div class="pack-card" onclick="elegirPack(this,6,84)">
       <div class="pack-hs">6</div><div class="pack-hs-label">hs / mes</div>
-      <div class="pack-price">$84</div><div class="pack-price-label">por mes</div>
-      <hr class="pack-divider"><div class="pack-per-hora">$14 / hora</div>
+      <div class="pack-price">AR$84</div><div class="pack-price-label">por mes</div>
+      <hr class="pack-divider"><div class="pack-per-hora">AR$14 / hora</div>
         </div>
     <div class="pack-card popular" onclick="elegirPack(this,8,112)">
       <div class="pop-badge">más elegido</div>
       <div class="pack-hs">8</div><div class="pack-hs-label">hs / mes</div>
-      <div class="pack-price">$112</div><div class="pack-price-label">por mes</div>
-      <hr class="pack-divider"><div class="pack-per-hora">$14 / hora</div>
+      <div class="pack-price">AR$112</div><div class="pack-price-label">por mes</div>
+      <hr class="pack-divider"><div class="pack-per-hora">AR$14 / hora</div>
     </div>
     <div class="pack-card" onclick="elegirPack(this,10,130)">
       <div class="pack-hs">10</div><div class="pack-hs-label">hs / mes</div>
-      <div class="pack-price">$130</div><div class="pack-price-label">por mes</div>
-      <hr class="pack-divider"><div class="pack-per-hora">$13 / hora</div>
+      <div class="pack-price">AR$130</div><div class="pack-price-label">por mes</div>
+      <hr class="pack-divider"><div class="pack-per-hora">AR$13 / hora</div>
     </div>
     <div class="pack-card" onclick="elegirPack(this,12,156)">
       <div class="pack-hs">12</div><div class="pack-hs-label">hs / mes</div>
-      <div class="pack-price">$156</div><div class="pack-price-label">por mes</div>
-      <hr class="pack-divider"><div class="pack-per-hora">$13 / hora</div>
+      <div class="pack-price">AR$156</div><div class="pack-price-label">por mes</div>
+      <hr class="pack-divider"><div class="pack-per-hora">AR$13 / hora</div>
     </div>
   </div>
   <div class="pago-box" id="pago-box">
@@ -278,7 +278,7 @@ const alumnosBase = [
       },
       {
         mes: "2026-06", label: "Junio 2026",
-        pack: 8, precioHora: 14, descuento: 28, nota: "2 clases de mayo a tu favor (descuento $28 aplicado). Retoma martes 9 de junio.",
+        pack: 8, precioHora: 14, descuento: 28, nota: "2 clases de mayo a tu favor (descuento AR$28 aplicado). Retoma martes 9 de junio.",
         clases: [
           { fecha: "2026-06-09" }, { fecha: "2026-06-11" }, { fecha: "2026-06-16" },
           { fecha: "2026-06-18" }, { fecha: "2026-06-23" }, { fecha: "2026-06-25" },
@@ -287,7 +287,7 @@ const alumnosBase = [
       },
       {
         mes: "2026-07", label: "Julio 2026",
-        pack: 9, precioHora: 14, descuento: 14, nota: "1 clase del 11 de junio a favor (descuento $14 aplicado).",
+        pack: 9, precioHora: 14, descuento: 14, nota: "1 clase del 11 de junio a favor (descuento AR$14 aplicado).",
         clases: [
           { fecha: "2026-07-02" }, { fecha: "2026-07-07" }, { fecha: "2026-07-09" },
           { fecha: "2026-07-14" }, { fecha: "2026-07-16" }, { fecha: "2026-07-21" },
@@ -389,7 +389,7 @@ const alumnosBase = [
       },
       {
         mes: "2026-06", label: "Junio 2026",
-        pack: 12, precioHora: 13, descuento: 0, nota: "Pack ya pago: 12hs por $156 (5 hechas en mayo). Este mes terminamos las 7 clases restantes.",
+        pack: 12, precioHora: 13, descuento: 0, nota: "Pack ya pago: 12hs por AR$156 (5 hechas en mayo). Este mes terminamos las 7 clases restantes.",
         clases: [
           { fecha: "2026-06-08" }, { fecha: "2026-06-10" }, { fecha: "2026-06-13" },
           { fecha: "2026-06-15" }, { fecha: "2026-06-17" }, { fecha: "2026-06-20" },
@@ -398,11 +398,19 @@ const alumnosBase = [
       },
       {
         mes: "2026-07", label: "Julio 2026",
-        pack: 7, precioHora: 13, descuento: 0, nota: "Desde ahora solo miércoles y sábados (se saca el lunes). Arranca miércoles 8.",
+        pack: 12, precioHora: 13, descuento: 0, nota: "Pack nuevo ya pago: 12 clases por AR$156, repartidas entre julio (7) y agosto (5). Desde ahora solo miércoles y sábados. Arranca miércoles 8.",
         clases: [
           { fecha: "2026-07-08" }, { fecha: "2026-07-11" }, { fecha: "2026-07-15" },
           { fecha: "2026-07-18" }, { fecha: "2026-07-22" }, { fecha: "2026-07-25" },
           { fecha: "2026-07-29" },
+        ]
+      },
+      {
+        mes: "2026-08", label: "Agosto 2026",
+        pack: 12, precioHora: 13, descuento: 0, nota: "Pack ya pago en julio (12 clases, AR$156). Estas son las 5 clases restantes.",
+        clases: [
+          { fecha: "2026-08-01" }, { fecha: "2026-08-05" }, { fecha: "2026-08-08" },
+          { fecha: "2026-08-12" }, { fecha: "2026-08-15" },
         ]
       },
     ]
@@ -498,7 +506,7 @@ let currentPackHs = 0;
 function elegirPack(el, hs, precio) {
   document.querySelectorAll(".pack-card").forEach(c => c.classList.remove("selected"));
   el.classList.add("selected");
-  document.getElementById("pago-monto").textContent = "$" + precio;
+  document.getElementById("pago-monto").textContent = "AR$" + precio;
   document.getElementById("pago-detalle").textContent = "Pack " + hs + " hs - transferencia bancaria";
   document.getElementById("pago-box").classList.add("visible");
 
@@ -655,7 +663,7 @@ function renderAlumnoView(a) {
   const pct = Math.min(100, Math.round(tomadas / packTotal * 100));
   const precioNormal = packTotal * m.precioHora;
   const aPagar = Math.max(0, precioNormal - m.descuento);
-  const pagoHtml = `<div class="pago-card"><strong>Pago este mes</strong><br>Pack ${packTotal}hs: $${precioNormal}${m.descuento > 0 ? ` — Descuento clases a favor: $${m.descuento}` : ""}<br><strong>Total a pagar: $${aPagar}</strong><br><span style="font-size:11px;color:var(--muted)">Precio por hora: $${m.precioHora}</span></div>`;
+  const pagoHtml = `<div class="pago-card"><strong>Pago este mes</strong><br>Pack ${packTotal}hs: AR$${precioNormal}${m.descuento > 0 ? ` — Descuento clases a favor: AR$${m.descuento}` : ""}<br><strong>Total a pagar: AR$${aPagar}</strong><br><span style="font-size:11px;color:var(--muted)">Precio por hora: AR$${m.precioHora}</span></div>`;
   const notaHtml = m.nota ? `<div class="pago-card" style="background:#f0f7ee;border-color:#b8dab3;color:#2d4a2a"><strong>Nota</strong><br>${m.nota}</div>` : "";
   const clasesHtml = m.clases.map(c => `<div class="clase-row"><div class="clase-dot ${dotCls[c.estado]}"></div><span class="clase-fecha">${formatFecha(c.fecha)}</span><span class="clase-est ${estCls[c.estado]}">${estLabel[c.estado]}</span></div>`).join("");
   const mesTabs = a.meses.length > 1 ? `<div class="mes-tabs">${a.meses.map((mes, i) => `<button class="mes-tab ${i===idx?"active":""}" onclick="setAlumnoMes('${a.codigo}',${i})">${mes.label}</button>`).join("")}</div>` : "";
@@ -734,7 +742,7 @@ function renderPalomaView() {
         <div class="pal-estado ${estClass}">${estTxt}</div>
       </div>
       ${mesTabs}
-      ${`<div class="pago-card" style="margin-bottom:8px;font-size:12px">Este mes paga <strong>$${aPagar}</strong>${m.descuento>0?` (descuento $${m.descuento})`:""}<br><span style="font-size:11px;color:var(--muted)">Precio por hora: $${m.precioHora}</span></div>`}
+      ${`<div class="pago-card" style="margin-bottom:8px;font-size:12px">Este mes paga <strong>AR$${aPagar}</strong>${m.descuento>0?` (descuento AR$${m.descuento})`:""}<br><span style="font-size:11px;color:var(--muted)">Precio por hora: AR$${m.precioHora}</span></div>`}
       <div class="pal-nums"><span>${tomadas} realizadas</span><span>${rest} restantes de ${packTotal}hs</span></div>
       <div class="pal-barra-track"><div class="pal-barra-fill ${verde?"verde":""}" style="width:${pct}%"></div></div>
       <button class="toggle-btn" onclick="palToggle(${i})">${palExp[i]?"Ocultar detalle ▲":"Ver clases y calendario ▼"}</button>

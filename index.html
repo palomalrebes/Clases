@@ -1,3 +1,6 @@
+Dale, acá tenés el código completo para copiar:
+
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -301,6 +304,15 @@ const alumnosBase = [
           { fecha: "2026-08-13" }, { fecha: "2026-08-17" }, { fecha: "2026-08-20" }, { fecha: "2026-08-24" },
         ]
       },
+      {
+        mes: "2026-09", label: "Septiembre 2026",
+        pack: 8, precioHora: 14, descuento: 0, nota: "Pack de septiembre: lunes y jueves 16:30–17:30, contando desde hoy 7/9.",
+        clases: [
+          { fecha: "2026-09-07" }, { fecha: "2026-09-10" }, { fecha: "2026-09-14" },
+          { fecha: "2026-09-17" }, { fecha: "2026-09-21" }, { fecha: "2026-09-24" },
+          { fecha: "2026-09-28" }, { fecha: "2026-10-01" },
+        ]
+      },
     ]
   },
   {
@@ -384,7 +396,7 @@ const alumnosBase = [
     nombre: "Misha",
     codigo: "Misha2026",
     drive: "https://drive.google.com/drive/folders/1fy4HjwNbl9Bl8140X1-6ZpqLT2YOAl1v?usp=sharing",
-    horario: "Miércoles 17:00–18:00 y sábados 14:00–15:00",
+    horario: "Miércoles y viernes 17:00–18:00",
     meses: [
       {
         mes: "2026-05", label: "Mayo 2026",
@@ -422,6 +434,17 @@ const alumnosBase = [
           { fecha: "2026-08-22" },
         ]
       },
+      {
+        mes: "2026-09", label: "Septiembre 2026",
+        pack: 12, precioHora: 13, descuento: 0, nota: "Pack nuevo de 12hs comprado el 29/8 (independiente del anterior, que ya se completó). El sábado 5/9 no hubo clase. Desde entonces, nuevo horario: miércoles y viernes 17:00–18:00. Las 3 clases que no entran en septiembre se completan en octubre.",
+        clases: [
+          { fecha: "2026-08-29" }, { fecha: "2026-09-02" },
+          { fecha: "2026-09-09" }, { fecha: "2026-09-11" },
+          { fecha: "2026-09-16" }, { fecha: "2026-09-18" },
+          { fecha: "2026-09-23" }, { fecha: "2026-09-25" },
+          { fecha: "2026-09-30" },
+        ]
+      },
     ]
   },
   {
@@ -451,6 +474,30 @@ const alumnosBase = [
         pack: 4, precioHora: 15, descuento: 15, nota: "Se descuenta 1 clase que te debía; como además faltó a una, se compensan entre sí y en total pagás 3 clases.",
         clases: [
           { fecha: "2026-08-06" }, { fecha: "2026-08-13" }, { fecha: "2026-08-20" }, { fecha: "2026-08-27" },
+        ]
+      },
+      {
+        mes: "2026-09", label: "Septiembre 2026",
+        pack: 4, precioHora: 15, descuento: 0, nota: "",
+        clases: [
+          { fecha: "2026-09-03" }, { fecha: "2026-09-10" },
+          { fecha: "2026-09-17" }, { fecha: "2026-09-24" },
+        ]
+      },
+    ]
+  },
+  {
+    nombre: "Olesya",
+    codigo: "Olesya2026",
+    drive: "",
+    horario: "Miércoles 15:00–16:00",
+    meses: [
+      {
+        mes: "2026-09", label: "Septiembre 2026",
+        pack: 4, precioHora: 15, descuento: 0, nota: "Alumna nueva, arranca en septiembre.",
+        clases: [
+          { fecha: "2026-09-09" }, { fecha: "2026-09-16" },
+          { fecha: "2026-09-23" }, { fecha: "2026-09-30" },
         ]
       },
     ]
@@ -783,6 +830,7 @@ function renderPalomaView() {
   document.getElementById("pal-view").innerHTML = html;
 }
 
+function palToggle(i) { palExp[i] = !palExp[i]; renderPalomaView(); }
 function palSetMes(i, j) { palMesIdx[i] = j; renderPalomaView(); }
 function logoutPaloma() {
   document.getElementById("pal-view").style.display = "none";
@@ -801,3 +849,4 @@ function showTab(tab, btn) {
 </script>
 </body>
 </html>
+```

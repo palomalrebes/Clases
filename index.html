@@ -341,11 +341,16 @@ const alumnosBase = [
 // ── FIN ALUMNOS ──────────────────────────────────────────────────
 
 let alumnos = [];
+let palExp = [];
+let palMesIdx = [];
+let errorSheets = "";      // mensaje si no se pudo leer la planilla
+let ultimaCarga = null;    // hora de la última lectura correcta
 
 // Carga los estados desde Google Sheets y los combina con alumnosBase
 async function cargarDatos() {
   try {
-    const resp = await fetch(SHEETS_URL, { redirect: "follow" });
+    // "?t=" evita que el navegador o GitHub Pages usen una respuesta vieja guardada
+    const resp = await fetch(SHEETS_URL + "?t=" + Date.now(), { redirect: "follow", cache: "no-store" });
     if (!resp.ok) throw new Error("HTTP " + resp.status);
     const estados = await resp.json(); // { "Emilia|2026-05-05": "realizada", ... }
     alumnos = alumnosBase.map(a => ({
@@ -358,7 +363,10 @@ async function cargarDatos() {
         }))
       }))
     }));
+    errorSheets = "";
+    ultimaCarga = new Date();
   } catch(e) {
+    errorSheets = "No se pudo leer la planilla (" + e.message + "). Se muestran todas las clases como pendientes.";
     alumnos = alumnosBase.map(a => ({
       ...a,
       meses: a.meses.map(m => ({
@@ -368,12 +376,37 @@ async function cargarDatos() {
     }));
     console.warn("Error cargando Sheets:", e.message, e);
   }
-  palExp = alumnos.map(() => false);
-  palMesIdx = alumnos.map(a => a.meses.length - 1); // default: último mes (más reciente)
+  // Conserva lo que Paloma tenía abierto si solo se está actualizando
+  if (palExp.length !== alumnos.length) palExp = alumnos.map(() => false);
+  if (palMesIdx.length !== alumnos.length) palMesIdx = alumnos.map(a => a.meses.length - 1); // default: último mes
 }
 
-let palExp = [];
-let palMesIdx = [];
+// Aviso de estado de la conexión con la planilla + botón para actualizar
+function estadoSheetsHtml(fn) {
+  const hora = ultimaCarga ? ultimaCarga.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }) : "";
+  const aviso = errorSheets
+    ? `<div class="pago-card" style="background:#fdecea;border-color:#f5b5b0;color:#8a1c14">⚠️ ${errorSheets}</div>`
+    : "";
+  return `${aviso}<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:11px;color:var(--muted)">
+    <span>${hora ? "Actualizado a las " + hora : ""}</span>
+    <button class="logout-btn" onclick="${fn}">↻ Actualizar</button>
+  </div>`;
+}
+
+async function recargarPaloma() {
+  document.getElementById("pal-view").innerHTML = '<div class="login-sub" style="text-align:center">Actualizando…</div>';
+  datosListos = cargarDatos();
+  await datosListos;
+  renderPalomaView();
+}
+
+async function recargarAlumno(codigo) {
+  datosListos = cargarDatos();
+  await datosListos;
+  const a = alumnos.find(x => x.codigo === codigo);
+  if (a) renderAlumnoView(a);
+}
+
 let alumnoMesIdx = {}; // { codigo: mesIndex }
 const vacaciones = new Set();
 
@@ -554,7 +587,8 @@ function buildCal(clases, year, month) {
     </div>`;
 }
 
-function doLogin() {
+async function doLogin() {
+  await datosListos;
   const val = document.getElementById("login-input").value.trim();
   const a = alumnos.find(x => x.codigo === val);
   if (!a) { document.getElementById("login-error").textContent = "Código incorrecto. Revisá el que te mandó Paloma."; return; }
@@ -564,8 +598,8 @@ function doLogin() {
 }
 document.getElementById("login-input").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
 
-// Cargar datos al iniciar
-cargarDatos();
+// Cargar datos al iniciar (login espera a que termine)
+let datosListos = cargarDatos();
 
 function renderAlumnoView(a) {
   const idx = alumnoMesIdx[a.codigo] !== undefined ? alumnoMesIdx[a.codigo] : a.meses.length - 1;
@@ -588,6 +622,7 @@ function renderAlumnoView(a) {
       <div><div class="av-name">${a.nombre}</div><div class="av-pack">${m.pack ? "Pack "+m.pack+"hs" : "Pack por confirmar"} · ${m.label}</div><div class="av-pack" style="margin-top:2px">🕐 ${a.horario}</div></div>
       <button class="logout-btn" onclick="logoutAlumno()">Salir</button>
     </div>
+    ${estadoSheetsHtml("recargarAlumno('" + a.codigo + "')")}
     ${mesTabs}
     ${pagoHtml}${notaHtml}
     <div class="progress-card">
@@ -619,7 +654,8 @@ function logoutAlumno() {
   document.getElementById("login-box").style.display = "block";
 }
 
-function doPalLogin() {
+async function doPalLogin() {
+  await datosListos;
   if (document.getElementById("pal-input").value.trim() !== PALOMA_CODE) { document.getElementById("pal-error").textContent = "Código incorrecto."; return; }
   document.getElementById("pal-login-box").style.display = "none";
   renderPalomaView();
@@ -630,7 +666,7 @@ document.getElementById("pal-input").addEventListener("keydown", e => { if (e.ke
 function renderPalomaView() {
   const now = new Date();
   const mesActual = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}`;
-  let html = `<span class="section-label">Tus alumnos</span>`;
+  let html = estadoSheetsHtml("recargarPaloma()") + `<span class="section-label">Tus alumnos</span>`;
   alumnos.forEach((a, i) => {
     const idx = palMesIdx[i] !== undefined ? palMesIdx[i] : a.meses.length - 1;
     const m = a.meses[idx];

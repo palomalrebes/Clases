@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -269,40 +268,6 @@ const alumnosBase = [
     horario: "Lunes y jueves 16:30–17:30",
     meses: [
       {
-        mes: "2026-05", label: "Mayo 2026",
-        pack: 8, precioHora: 14, descuento: 56, nota: "Lunes 25 (14–15hs): recuperación del jueves. Última semana: lunes 26 y martes 27.",
-        clases: [
-          { fecha: "2026-05-05" }, { fecha: "2026-05-07" }, { fecha: "2026-05-12" },
-          { fecha: "2026-05-14" }, { fecha: "2026-05-19" }, { fecha: "2026-05-21" },
-          { fecha: "2026-05-25" }, { fecha: "2026-05-26" },
-        ]
-      },
-      {
-        mes: "2026-06", label: "Junio 2026",
-        pack: 8, precioHora: 14, descuento: 28, nota: "2 clases de mayo a tu favor (descuento AR$28 aplicado). Retoma martes 9 de junio.",
-        clases: [
-          { fecha: "2026-06-09" }, { fecha: "2026-06-11" }, { fecha: "2026-06-16" },
-          { fecha: "2026-06-18" }, { fecha: "2026-06-23" }, { fecha: "2026-06-25" },
-          { fecha: "2026-06-30" },
-        ]
-      },
-      {
-        mes: "2026-07", label: "Julio 2026",
-        pack: 9, precioHora: 14, descuento: 14, nota: "1 clase del 11 de junio a favor (descuento AR$14 aplicado).",
-        clases: [
-          { fecha: "2026-07-02" }, { fecha: "2026-07-07" }, { fecha: "2026-07-09" },
-          { fecha: "2026-07-14" }, { fecha: "2026-07-16" }, { fecha: "2026-07-21" },
-          { fecha: "2026-07-23" }, { fecha: "2026-07-28" }, { fecha: "2026-07-30" },
-        ]
-      },
-      {
-        mes: "2026-08", label: "Agosto 2026",
-        pack: 4, precioHora: 14, descuento: 0, nota: "Nuevo horario: lunes y jueves 16:30–17:30. No hay clase el 3, 6 y 10 (a cuenta de las clases que te debía) ni el 27 y el 31 (viaje). Este mes son 4 clases.",
-        clases: [
-          { fecha: "2026-08-13" }, { fecha: "2026-08-17" }, { fecha: "2026-08-20" }, { fecha: "2026-08-24" },
-        ]
-      },
-      {
         mes: "2026-09", label: "Septiembre 2026",
         pack: 7, precioHora: 14, descuento: 0, nota: "Pack de septiembre: lunes y jueves 16:30–17:30, contando desde hoy 7/9 (7 clases este mes).",
         clases: [
@@ -314,124 +279,11 @@ const alumnosBase = [
     ]
   },
   {
-    nombre: "Laura",
-    codigo: "Laura2026",
-    drive: "https://drive.google.com/drive/folders/1WG4XU1MDKNriif_t9L542HaI10KdTKX7?usp=drive_link",
-    horario: "Jueves 2hs",
-    meses: [
-      {
-        mes: "2026-05", label: "Mayo 2026",
-        pack: 8, precioHora: 14, descuento: 84, nota: "Excepción este mes: miércoles 27 en vez del jueves.",
-        clases: [
-          { fecha: "2026-05-07" }, { fecha: "2026-05-14" }, { fecha: "2026-05-21" },
-          { fecha: "2026-05-22" }, { fecha: "2026-05-27" },
-        ]
-      },
-      {
-        mes: "2026-06", label: "Junio 2026",
-        pack: 8, precioHora: 14, descuento: 0, nota: "",
-        clases: [
-          { fecha: "2026-06-05" }, { fecha: "2026-06-12" }, { fecha: "2026-06-19" },
-          { fecha: "2026-06-26" },
-        ]
-      },
-    ]
-  },
-  {
-    nombre: "Pavel",
-    codigo: "Pavel2026",
-    drive: "https://drive.google.com/drive/folders/1QZMIYKdOMg38IkixJKeg8VxWP6djghm8?usp=drive_link",
-    horario: "Miércoles y viernes 10:00–11:00",
-    meses: [
-      {
-        mes: "2026-05", label: "Mayo 2026",
-        pack: null, precioHora: 15, descuento: 0, nota: "Pack por confirmar. Última clase: miércoles 27.",
-        clases: [
-          { fecha: "2026-05-06" }, { fecha: "2026-05-08" }, { fecha: "2026-05-13" },
-          { fecha: "2026-05-15" }, { fecha: "2026-05-20" }, { fecha: "2026-05-22" },
-          { fecha: "2026-05-27" },
-        ]
-      },
-      {
-        mes: "2026-06", label: "Junio 2026",
-        pack: null, precioHora: 15, descuento: 0, nota: "",
-        clases: [
-          { fecha: "2026-06-03" }, { fecha: "2026-06-05" }, { fecha: "2026-06-10" },
-          { fecha: "2026-06-12" }, { fecha: "2026-06-17" }, { fecha: "2026-06-19" },
-          { fecha: "2026-06-24" }, { fecha: "2026-06-26" },
-        ]
-      },
-    ]
-  },
-  {
-    nombre: "Dasha",
-    codigo: "Dasha2026",
-    drive: "https://drive.google.com/drive/folders/1vYrVfEkdLTRX27G9riWPrNCDYfTPdrPj?usp=drive_link",
-    horario: "Lunes 10:00–12:00 y viernes 11:00–12:00",
-    meses: [
-      {
-        mes: "2026-05", label: "Mayo 2026",
-        pack: null, precioHora: 13, descuento: 0, nota: "Última clase: lunes 26.",
-        clases: [
-          { fecha: "2026-05-04", horas: 2 }, { fecha: "2026-05-08" },
-          { fecha: "2026-05-11", horas: 2 }, { fecha: "2026-05-15" },
-          { fecha: "2026-05-18", horas: 2 }, { fecha: "2026-05-22" },
-        ]
-      },
-      {
-        mes: "2026-06", label: "Junio 2026",
-        pack: null, precioHora: 13, descuento: 0, nota: "",
-        clases: [
-          { fecha: "2026-06-05" }, { fecha: "2026-06-08", horas: 2 },
-          { fecha: "2026-06-12" }, { fecha: "2026-06-15", horas: 2 },
-          { fecha: "2026-06-19" }, { fecha: "2026-06-22", horas: 2 },
-          { fecha: "2026-06-26" },
-        ]
-      },
-    ]
-  },
-  {
     nombre: "Misha",
     codigo: "Misha2026",
     drive: "https://drive.google.com/drive/folders/1fy4HjwNbl9Bl8140X1-6ZpqLT2YOAl1v?usp=sharing",
     horario: "Miércoles y viernes 17:00–18:00",
     meses: [
-      {
-        mes: "2026-05", label: "Mayo 2026",
-        pack: 12, precioHora: 13, descuento: 0, nota: "Pack de 12hs. Clases realizadas: 5.",
-        clases: [
-          { fecha: "2026-05-16" }, { fecha: "2026-05-18" }, { fecha: "2026-05-20" },
-          { fecha: "2026-05-23" }, { fecha: "2026-05-25" }, { fecha: "2026-05-27" },
-        ]
-      },
-      {
-        mes: "2026-06", label: "Junio 2026",
-        pack: 12, precioHora: 13, descuento: 0, nota: "Pack ya pago: 12hs por AR$156 (5 hechas en mayo). Este mes terminamos las 7 clases restantes.",
-        clases: [
-          { fecha: "2026-06-08" }, { fecha: "2026-06-10" }, { fecha: "2026-06-13" },
-          { fecha: "2026-06-15" }, { fecha: "2026-06-17" }, { fecha: "2026-06-20" },
-          { fecha: "2026-06-22" },
-        ]
-      },
-      {
-        mes: "2026-07", label: "Julio 2026",
-        pack: 12, precioHora: 13, descuento: 0, nota: "Pack nuevo ya pago: 12 clases por AR$156, repartidas entre julio (7) y agosto (5). Desde ahora solo miércoles y sábados. Arranca miércoles 8.",
-        clases: [
-          { fecha: "2026-07-08" }, { fecha: "2026-07-11" }, { fecha: "2026-07-15" },
-          { fecha: "2026-07-18" }, { fecha: "2026-07-22" }, { fecha: "2026-07-25" },
-          { fecha: "2026-07-29" },
-        ]
-      },
-      {
-        mes: "2026-08", label: "Agosto 2026",
-        pack: 12, precioHora: 13, descuento: 0, nota: "Pack ya pago en julio (12 clases, AR$156). Se suman 2 clases de recuperación (miércoles 19 y sábado 22) por la semana que no tuvimos clase.",
-        acumulaDesdeMesAnterior: true,
-        clases: [
-          { fecha: "2026-08-01" }, { fecha: "2026-08-05" }, { fecha: "2026-08-08" },
-          { fecha: "2026-08-12" }, { fecha: "2026-08-15" }, { fecha: "2026-08-19" },
-          { fecha: "2026-08-22" },
-        ]
-      },
       {
         mes: "2026-09", label: "Septiembre 2026",
         pack: 12, precioHora: 13, descuento: 0, nota: "Pack nuevo de 12hs comprado el 29/8 (independiente del anterior, que ya se completó). El sábado 5/9 no hubo clase. Desde entonces, nuevo horario: miércoles y viernes 17:00–18:00. Las 3 clases que no entran en septiembre se completan en octubre.",
@@ -443,6 +295,14 @@ const alumnosBase = [
           { fecha: "2026-09-30" },
         ]
       },
+      {
+        mes: "2026-10", label: "Octubre 2026",
+        pack: 12, precioHora: 13, descuento: 0, nota: "Continuación del pack de 12hs comprado el 29/8 (ya pago). Acá se completan las 3 clases que quedaron de septiembre.",
+        acumulaDesdeMesAnterior: true,
+        clases: [
+          { fecha: "2026-10-02" }, { fecha: "2026-10-07" }, { fecha: "2026-10-09" },
+        ]
+      },
     ]
   },
   {
@@ -451,29 +311,6 @@ const alumnosBase = [
     drive: "https://drive.google.com/drive/folders/15FMFo5WOsqfo2Dq-H9iWyCNBZiHZVYjV",
     horario: "Jueves 18:00–19:00",
     meses: [
-      {
-        mes: "2026-06", label: "Junio 2026",
-        pack: 3, precioHora: 15, descuento: 0, nota: "Inicio: jueves 11 de junio.",
-        clases: [
-          { fecha: "2026-06-11" }, { fecha: "2026-06-18" },
-          { fecha: "2026-06-25" },
-        ]
-      },
-      {
-        mes: "2026-07", label: "Julio 2026",
-        pack: 5, precioHora: 15, descuento: 0, nota: "Hay que recuperar una clase este mes.",
-        clases: [
-          { fecha: "2026-07-02" }, { fecha: "2026-07-09" }, { fecha: "2026-07-16" },
-          { fecha: "2026-07-23" }, { fecha: "2026-07-30" },
-        ]
-      },
-      {
-        mes: "2026-08", label: "Agosto 2026",
-        pack: 4, precioHora: 15, descuento: 15, nota: "Se descuenta 1 clase que te debía; como además faltó a una, se compensan entre sí y en total pagás 3 clases.",
-        clases: [
-          { fecha: "2026-08-06" }, { fecha: "2026-08-13" }, { fecha: "2026-08-20" }, { fecha: "2026-08-27" },
-        ]
-      },
       {
         mes: "2026-09", label: "Septiembre 2026",
         pack: 4, precioHora: 15, descuento: 0, nota: "",
@@ -550,7 +387,7 @@ function formatFecha(iso) { const [y,m,d] = iso.split("-"); return `${d}/${m}`; 
 
 // Calcula las horas "realizadas" de un mes. Si el mes tiene
 // acumulaDesdeMesAnterior=true, le suma lo realizado en el mes anterior
-// (para packs que se reparten en más de un mes, como el de Misha jul/ago).
+// (para packs que se reparten en más de un mes, como el de Misha sep/oct).
 function calcTomadas(a, idx) {
   const m = a.meses[idx];
   let tomadas = m.clases.filter(c => c.estado === "realizada").reduce((acc, c) => acc + (c.horas || 1), 0);
@@ -850,4 +687,3 @@ function showTab(tab, btn) {
 </script>
 </body>
 </html>
-```

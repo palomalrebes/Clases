@@ -378,6 +378,23 @@ const alumnosBase = [
       },
     ]
   },
+  {
+    nombre: "Pavel",
+    codigo: "Pavel2026",
+    drive: "https://drive.google.com/drive/folders/1QZMIYKdOMg38IkixJKeg8VxWP6djghm8?usp=drive_link",
+    horario: "Martes y jueves 13:00–14:00",
+    meses: [
+      {
+        mes: "2026-10", label: "Octubre 2026",
+        pack: 6, precioHora: 14, descuento: 0, nota: "Retomamos el martes 13/10 con nuevo horario: martes y jueves 13:00–14:00. Octubre: 6 clases.",
+        clases: [
+          { fecha: "2026-10-13" }, { fecha: "2026-10-15" },
+          { fecha: "2026-10-20" }, { fecha: "2026-10-22" },
+          { fecha: "2026-10-27" }, { fecha: "2026-10-29" },
+        ]
+      },
+    ]
+  },
 ];
 // ── FIN ALUMNOS ──────────────────────────────────────────────────
 
@@ -476,7 +493,7 @@ const DISPONIBILIDAD = {
   1: [[9,10],[12,20]],
   2: [[18,20]],
   3: [[9,10],[16,20]],
-  4: [[9,10],[13,16],[18,20]],
+  4: [[9,10],[14,16],[18,20]], // jueves 13:00 ocupado por Pavel
   5: [[13,15],[19,20]],
 };
 // Días especiales: sin disponibilidad completa (YYYY-MM-DD)

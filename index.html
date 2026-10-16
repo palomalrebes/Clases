@@ -199,6 +199,11 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
     <div class="pago-box-title">Cómo pagar tu pack</div>
     <div class="pago-monto" id="pago-monto"></div>
     <div class="pago-detalle" id="pago-detalle"></div>
+    <div class="alias-row">
+      <span class="alias-label">Alias</span>
+      <span class="alias-value">paloNX.97</span>
+      <button class="copy-btn" onclick="copiarAlias(this)">Copiar</button>
+    </div>
     <div class="pago-nota">Una vez hecha la transferencia, <strong>avisale a Paloma por WhatsApp</strong> con el comprobante.</div>
   </div>
 
@@ -251,7 +256,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
 
 <script>
 const PALOMA_CODE = "sgl41612406";
-const ALIAS = "palo97.NX";
+const ALIAS = "paloNX.97";
 
 // ── URL DEL GOOGLE APPS SCRIPT ───────────────────────────────────
 // Pegá acá la URL que te da Google cuando publicás el script
@@ -668,7 +673,7 @@ function renderAlumnoView(a) {
   const pct = Math.min(100, Math.round(tomadas / packTotal * 100));
   const precioNormal = packTotal * m.precioHora;
   const aPagar = Math.max(0, precioNormal - m.descuento);
-  const pagoHtml = `<div class="pago-card"><strong>Pago este mes</strong><br>Pack ${packTotal}hs: AR$${precioNormal}${m.descuento > 0 ? ` — Descuento clases a favor: AR$${m.descuento}` : ""}<br><strong>Total a pagar: AR$${aPagar}</strong><br><span style="font-size:11px;color:var(--muted)">Precio por hora: AR$${m.precioHora}</span></div>`;
+  const pagoHtml = `<div class="pago-card"><strong>Pago este mes</strong><br>Pack ${packTotal}hs: AR$${precioNormal}${m.descuento > 0 ? ` — Descuento clases a favor: AR$${m.descuento}` : ""}<br><strong>Total a pagar: AR$${aPagar}</strong><br><span style="font-size:11px;color:var(--muted)">Precio por hora: AR$${m.precioHora}</span><div class="alias-row" style="margin:8px 0 0"><span class="alias-label">Alias</span><span class="alias-value">${ALIAS}</span><button class="copy-btn" onclick="copiarAlias(this)">Copiar</button></div></div>`;
   const notaHtml = m.nota ? `<div class="pago-card" style="background:#f0f7ee;border-color:#b8dab3;color:#2d4a2a"><strong>Nota</strong><br>${m.nota}</div>` : "";
   const clasesHtml = m.clases.map(c => `<div class="clase-row"><div class="clase-dot ${dotCls[c.estado]}"></div><span class="clase-fecha">${formatFecha(c.fecha)}</span><span class="clase-est ${estCls[c.estado]}">${estLabel[c.estado]}</span></div>`).join("");
   const mesTabs = a.meses.length > 1 ? `<div class="mes-tabs">${a.meses.map((mes, i) => `<button class="mes-tab ${i===idx?"active":""}" onclick="setAlumnoMes('${a.codigo}',${i})">${mes.label}</button>`).join("")}</div>` : "";
@@ -770,6 +775,15 @@ function logoutPaloma() {
   document.getElementById("pal-input").value = "";
   document.getElementById("pal-error").textContent = "";
   document.getElementById("pal-login-box").style.display = "block";
+}
+
+function copiarAlias(btn) {
+  const listo = () => { btn.textContent = "¡Copiado!"; btn.classList.add("copiado"); setTimeout(() => { btn.textContent = "Copiar"; btn.classList.remove("copiado"); }, 2000); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(ALIAS).then(listo).catch(() => { prompt("Copiá el alias:", ALIAS); });
+  } else {
+    prompt("Copiá el alias:", ALIAS);
+  }
 }
 
 function showTab(tab, btn) {

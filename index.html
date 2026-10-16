@@ -729,7 +729,7 @@ document.getElementById("pal-input").addEventListener("keydown", e => { if (e.ke
 function renderPalomaView() {
   const now = new Date();
   const mesActual = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}`;
-  let html = estadoSheetsHtml("recargarPaloma()") + `<span class="section-label">Tus alumnos</span>`;
+  let html = estadoSheetsHtml("recargarPaloma()") + resumenPagosHtml(mesActual) + `<span class="section-label">Tus alumnos</span>`;
   alumnos.forEach((a, i) => {
     const idx = palMesIdx[i] !== undefined ? palMesIdx[i] : a.meses.length - 1;
     const m = a.meses[idx];
@@ -765,6 +765,34 @@ function renderPalomaView() {
   });
   html += `<button class="logout-btn" style="width:100%;margin-top:4px" onclick="logoutPaloma()">Cerrar sesión</button>`;
   document.getElementById("pal-view").innerHTML = html;
+}
+
+// Suma lo que paga cada alumno en cada mes.
+// Los meses con acumulaDesdeMesAnterior (pack ya pagado el mes anterior) no suman.
+function resumenPagosHtml(mesActual) {
+  const porMes = {};
+  alumnosBase.forEach(a => {
+    a.meses.forEach(m => {
+      if (!porMes[m.mes]) porMes[m.mes] = { label: m.label, total: 0, detalle: [] };
+      const monto = m.acumulaDesdeMesAnterior ? 0 : Math.max(0, (m.pack || 8) * m.precioHora - m.descuento);
+      porMes[m.mes].total += monto;
+      porMes[m.mes].detalle.push({ nombre: a.nombre, monto, yaPago: !!m.acumulaDesdeMesAnterior });
+    });
+  });
+  const meses = Object.keys(porMes).sort().reverse();
+  const filas = meses.map(k => {
+    const d = porMes[k];
+    const actual = k === mesActual;
+    const detalle = d.detalle.map(x => `<div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);padding:2px 0"><span>${x.nombre}</span><span>${x.yaPago ? "ya pagó" : "AR$" + x.monto}</span></div>`).join("");
+    return `<details ${actual ? "open" : ""} style="border-top:1px solid var(--border);padding:8px 0">
+      <summary style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none">
+        <span style="font-size:13px;font-weight:600">${d.label}${actual ? ' <span style="font-size:10px;background:var(--green-pale);color:var(--green-dark);padding:2px 7px;border-radius:20px;margin-left:4px">este mes</span>' : ""}</span>
+        <span style="font-size:${actual ? 20 : 15}px;font-weight:800;color:var(--iris)">AR$${d.total}</span>
+      </summary>
+      <div style="margin-top:6px">${detalle}</div>
+    </details>`;
+  }).join("");
+  return `<div class="progress-card"><div class="prog-title">Total a cobrar por mes</div>${filas}</div>`;
 }
 
 function palToggle(i) { palExp[i] = !palExp[i]; renderPalomaView(); }

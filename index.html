@@ -67,6 +67,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
 .clase-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 .d-ok{background:var(--green);} .d-falto{background:#e53935;} .d-reag{background:var(--iris-light);} .d-pend{background:#ccc;}
 .clase-fecha { color: var(--muted); min-width: 68px; }
+.clase-recup { font-size: 10.5px; color: var(--iris-light); font-weight: 600; }
 .clase-est { margin-left: auto; font-weight: 600; font-size: 12px; }
 .c-ok{color:#3a6e35;} .c-falto{color:#c62828;} .c-reag{color:var(--iris);} .c-pend{color:#aaa;}
 .drive-btn { display: block; width: 100%; padding: 10px; background: var(--iris-pale); color: var(--iris); border: 1.5px solid var(--iris-light); border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; margin-bottom: 8px; }
@@ -128,7 +129,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
 .copy-btn.copiado { background: var(--green); }
 .pago-nota { font-size: 11px; color: var(--muted); line-height: 1.5; }
 .pago-nota strong { color: var(--text); }
-.mes-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+.mes-tabs { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
 .mes-tab { flex: 1; padding: 6px 4px; background: #ede0f2; color: var(--iris); border: none; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
 .mes-tab.active { background: var(--iris); color: #fff; }
 .intro-banner { background: linear-gradient(135deg,#f8f0fa,#f0f7ee); border: 1.5px solid var(--border); border-radius: 16px; padding: 0.9rem 1rem; margin-bottom: 1rem; font-size: 13px; color: var(--muted); line-height: 1.65; }
@@ -265,6 +266,8 @@ const SHEETS_URL = "https://script.google.com/macros/s/AKfycbzZk3kOCpqYsxooKCYNR
 // ── DATOS FIJOS DE ALUMNOS ────────────────────────────────────────
 // Los estados de las clases vienen de Google Sheets automáticamente.
 // Acá solo están los datos que no cambian seguido.
+// Una clase con recuperacion: true se muestra en el calendario pero
+// no se cuenta dentro del pack del mes (ya estaba pagada).
 const alumnosBase = [
   {
     nombre: "Emilia",
@@ -288,6 +291,15 @@ const alumnosBase = [
           { fecha: "2026-10-01" }, { fecha: "2026-10-05" }, { fecha: "2026-10-08" },
           { fecha: "2026-10-12" }, { fecha: "2026-10-15" }, { fecha: "2026-10-19" },
           { fecha: "2026-10-22" }, { fecha: "2026-10-26" }, { fecha: "2026-10-29" },
+        ]
+      },
+      {
+        mes: "2026-11", label: "Noviembre 2026",
+        pack: 9, precioHora: 14, descuento: 42, nota: "Noviembre: 9 clases (lunes y jueves). Tenés 3 clases a favor de octubre, que se descuentan del total (3 × AR$14 = AR$42).",
+        clases: [
+          { fecha: "2026-11-02" }, { fecha: "2026-11-05" }, { fecha: "2026-11-09" },
+          { fecha: "2026-11-12" }, { fecha: "2026-11-16" }, { fecha: "2026-11-19" },
+          { fecha: "2026-11-23" }, { fecha: "2026-11-26" }, { fecha: "2026-11-30" },
         ]
       },
     ]
@@ -317,6 +329,25 @@ const alumnosBase = [
           { fecha: "2026-10-02" }, { fecha: "2026-10-07" }, { fecha: "2026-10-09" },
         ]
       },
+      {
+        mes: "2026-11", label: "Noviembre 2026",
+        pack: 12, precioHora: 13, descuento: 0, nota: "Pack nuevo de 12hs (AR$156), arrancó el miércoles 28/10. Miércoles y viernes 17:00–18:00. Acá están las 2 clases de fines de octubre y las 8 de noviembre; las 2 últimas se completan en diciembre.",
+        clases: [
+          { fecha: "2026-10-28" }, { fecha: "2026-10-30" },
+          { fecha: "2026-11-04" }, { fecha: "2026-11-06" },
+          { fecha: "2026-11-11" }, { fecha: "2026-11-13" },
+          { fecha: "2026-11-18" }, { fecha: "2026-11-20" },
+          { fecha: "2026-11-25" }, { fecha: "2026-11-27" },
+        ]
+      },
+      {
+        mes: "2026-12", label: "Diciembre 2026",
+        pack: 12, precioHora: 13, descuento: 0, nota: "Continuación del pack de 12hs que arrancó el 28/10 (ya pago). Acá se completan las 2 últimas clases.",
+        acumulaDesdeMesAnterior: true,
+        clases: [
+          { fecha: "2026-12-02" }, { fecha: "2026-12-04" },
+        ]
+      },
     ]
   },
   {
@@ -339,6 +370,15 @@ const alumnosBase = [
         clases: [
           { fecha: "2026-10-01" }, { fecha: "2026-10-08" }, { fecha: "2026-10-15" },
           { fecha: "2026-10-22" }, { fecha: "2026-10-29" },
+        ]
+      },
+      {
+        mes: "2026-11", label: "Noviembre 2026",
+        pack: 4, precioHora: 15, descuento: 30, nota: "Noviembre tiene 4 jueves. Tenés 2 clases a favor, que se descuentan del total (2 × AR$15 = AR$30). Además recuperamos una clase el viernes 13/11 (no se cobra).",
+        clases: [
+          { fecha: "2026-11-05" }, { fecha: "2026-11-12" },
+          { fecha: "2026-11-13", recuperacion: true },
+          { fecha: "2026-11-19" }, { fecha: "2026-11-26" },
         ]
       },
     ]
@@ -365,6 +405,14 @@ const alumnosBase = [
           { fecha: "2026-10-21" }, { fecha: "2026-10-28" },
         ]
       },
+      {
+        mes: "2026-11", label: "Noviembre 2026",
+        pack: 4, precioHora: 15, descuento: 0, nota: "Noviembre: 4 clases (miércoles).",
+        clases: [
+          { fecha: "2026-11-04" }, { fecha: "2026-11-11" },
+          { fecha: "2026-11-18" }, { fecha: "2026-11-25" },
+        ]
+      },
     ]
   },
   {
@@ -379,6 +427,14 @@ const alumnosBase = [
         clases: [
           { fecha: "2026-10-06" }, { fecha: "2026-10-13" },
           { fecha: "2026-10-20" }, { fecha: "2026-10-27" },
+        ]
+      },
+      {
+        mes: "2026-11", label: "Noviembre 2026",
+        pack: 4, precioHora: 11, descuento: 11, nota: "Noviembre: 4 clases de 40 minutos (martes). Tenés 1 clase a favor, que se descuenta del total (AR$11).",
+        clases: [
+          { fecha: "2026-11-03" }, { fecha: "2026-11-10" },
+          { fecha: "2026-11-17" }, { fecha: "2026-11-24" },
         ]
       },
     ]
@@ -396,6 +452,16 @@ const alumnosBase = [
           { fecha: "2026-10-13" }, { fecha: "2026-10-15" },
           { fecha: "2026-10-20" }, { fecha: "2026-10-22" },
           { fecha: "2026-10-27" }, { fecha: "2026-10-29" },
+        ]
+      },
+      {
+        mes: "2026-11", label: "Noviembre 2026",
+        pack: 8, precioHora: 14, descuento: 28, nota: "Noviembre: 8 clases (martes y jueves). Tenés 2 clases a favor de octubre, que se descuentan del total (2 × AR$14 = AR$28).",
+        clases: [
+          { fecha: "2026-11-03" }, { fecha: "2026-11-05" },
+          { fecha: "2026-11-10" }, { fecha: "2026-11-12" },
+          { fecha: "2026-11-17" }, { fecha: "2026-11-19" },
+          { fecha: "2026-11-24" }, { fecha: "2026-11-26" },
         ]
       },
     ]
@@ -441,7 +507,7 @@ async function cargarDatos() {
   }
   // Conserva lo que Paloma tenía abierto si solo se está actualizando
   if (palExp.length !== alumnos.length) palExp = alumnos.map(() => false);
-  if (palMesIdx.length !== alumnos.length) palMesIdx = alumnos.map(a => a.meses.length - 1); // default: último mes
+  if (palMesIdx.length !== alumnos.length) palMesIdx = alumnos.map(a => idxMesDefault(a)); // default: mes actual
 }
 
 // Aviso de estado de la conexión con la planilla + botón para actualizar
@@ -478,15 +544,30 @@ const estCls = { pendiente: "c-pend", realizada: "c-ok", falto: "c-falto", reage
 const estLabel = { pendiente: "Pendiente", realizada: "Realizada", falto: "Faltó", reagendada: "Pendiente", reagendar: "Pendiente" };
 const calEstCls = { pendiente: "pendiente", realizada: "realizada", falto: "falto", reagendada: "pendiente", reagendar: "pendiente" };
 
+// Mes que se muestra por defecto: el mes actual si existe, si no el último cargado
+function idxMesDefault(a) {
+  const now = new Date();
+  const actual = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}`;
+  const i = a.meses.findIndex(m => m.mes === actual);
+  return i >= 0 ? i : a.meses.length - 1;
+}
+
 function initials(n) { return n.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase(); }
 function formatFecha(iso) { const [y,m,d] = iso.split("-"); return `${d}/${m}`; }
+
+// Fila de una clase en la lista (marca las recuperaciones)
+function claseRowHtml(c) {
+  const recup = c.recuperacion ? `<span class="clase-recup">recuperación</span>` : "";
+  return `<div class="clase-row"><div class="clase-dot ${dotCls[c.estado]}"></div><span class="clase-fecha">${formatFecha(c.fecha)}</span>${recup}<span class="clase-est ${estCls[c.estado]}">${estLabel[c.estado]}</span></div>`;
+}
 
 // Calcula las horas "realizadas" de un mes. Si el mes tiene
 // acumulaDesdeMesAnterior=true, le suma lo realizado en el mes anterior
 // (para packs que se reparten en más de un mes, como el de Misha sep/oct).
+// Las clases de recuperación no cuentan para el pack del mes.
 function calcTomadas(a, idx) {
   const m = a.meses[idx];
-  let tomadas = m.clases.filter(c => c.estado === "realizada").reduce((acc, c) => acc + (c.horas || 1), 0);
+  let tomadas = m.clases.filter(c => c.estado === "realizada" && !c.recuperacion).reduce((acc, c) => acc + (c.horas || 1), 0);
   if (m.acumulaDesdeMesAnterior && idx > 0) {
     tomadas += calcTomadas(a, idx - 1);
   }
@@ -665,7 +746,7 @@ document.getElementById("login-input").addEventListener("keydown", e => { if (e.
 let datosListos = cargarDatos();
 
 function renderAlumnoView(a) {
-  const idx = alumnoMesIdx[a.codigo] !== undefined ? alumnoMesIdx[a.codigo] : a.meses.length - 1;
+  const idx = alumnoMesIdx[a.codigo] !== undefined ? alumnoMesIdx[a.codigo] : idxMesDefault(a);
   const m = a.meses[idx];
   const tomadas = calcTomadas(a, idx);
   const packTotal = m.pack || 8;
@@ -673,9 +754,11 @@ function renderAlumnoView(a) {
   const pct = Math.min(100, Math.round(tomadas / packTotal * 100));
   const precioNormal = packTotal * m.precioHora;
   const aPagar = Math.max(0, precioNormal - m.descuento);
-  const pagoHtml = `<div class="pago-card"><strong>Pago este mes</strong><br>Pack ${packTotal}hs: AR$${precioNormal}${m.descuento > 0 ? ` — Descuento clases a favor: AR$${m.descuento}` : ""}<br><strong>Total a pagar: AR$${aPagar}</strong><br><span style="font-size:11px;color:var(--muted)">Precio por hora: AR$${m.precioHora}</span><div class="alias-row" style="margin:8px 0 0"><span class="alias-label">Alias</span><span class="alias-value">${ALIAS}</span><button class="copy-btn" onclick="copiarAlias(this)">Copiar</button></div></div>`;
+  const pagoHtml = m.acumulaDesdeMesAnterior
+    ? `<div class="pago-card"><strong>Pago este mes</strong><br>Este mes no pagás: es la continuación del pack que ya pagaste.</div>`
+    : `<div class="pago-card"><strong>Pago este mes</strong><br>Pack ${packTotal}hs: AR$${precioNormal}${m.descuento > 0 ? ` — Descuento clases a favor: AR$${m.descuento}` : ""}<br><strong>Total a pagar: AR$${aPagar}</strong><br><span style="font-size:11px;color:var(--muted)">Precio por hora: AR$${m.precioHora}</span><div class="alias-row" style="margin:8px 0 0"><span class="alias-label">Alias</span><span class="alias-value">${ALIAS}</span><button class="copy-btn" onclick="copiarAlias(this)">Copiar</button></div></div>`;
   const notaHtml = m.nota ? `<div class="pago-card" style="background:#f0f7ee;border-color:#b8dab3;color:#2d4a2a"><strong>Nota</strong><br>${m.nota}</div>` : "";
-  const clasesHtml = m.clases.map(c => `<div class="clase-row"><div class="clase-dot ${dotCls[c.estado]}"></div><span class="clase-fecha">${formatFecha(c.fecha)}</span><span class="clase-est ${estCls[c.estado]}">${estLabel[c.estado]}</span></div>`).join("");
+  const clasesHtml = m.clases.map(claseRowHtml).join("");
   const mesTabs = a.meses.length > 1 ? `<div class="mes-tabs">${a.meses.map((mes, i) => `<button class="mes-tab ${i===idx?"active":""}" onclick="setAlumnoMes('${a.codigo}',${i})">${mes.label}</button>`).join("")}</div>` : "";
   const [yr, mo] = m.mes.split("-").map(Number);
   const msg = encodeURIComponent(`Hola Paloma! Soy ${a.nombre}, quería consultarte sobre mis clases.`);
@@ -731,7 +814,7 @@ function renderPalomaView() {
   const mesActual = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}`;
   let html = estadoSheetsHtml("recargarPaloma()") + resumenPagosHtml(mesActual) + `<span class="section-label">Tus alumnos</span>`;
   alumnos.forEach((a, i) => {
-    const idx = palMesIdx[i] !== undefined ? palMesIdx[i] : a.meses.length - 1;
+    const idx = palMesIdx[i] !== undefined ? palMesIdx[i] : idxMesDefault(a);
     const m = a.meses[idx];
     const tomadas = calcTomadas(a, idx);
     const packTotal = m.pack || 8;
@@ -743,7 +826,7 @@ function renderPalomaView() {
     else if (rest <= 0 && tomadas > 0) { estClass = "est-completo"; estTxt = "Completo"; }
     const precioNormal = packTotal * m.precioHora;
     const aPagar = Math.max(0, precioNormal - m.descuento);
-    const clasesHtml = m.clases.map(c => `<div class="clase-row"><div class="clase-dot ${dotCls[c.estado]}"></div><span class="clase-fecha">${formatFecha(c.fecha)}</span><span class="clase-est ${estCls[c.estado]}">${estLabel[c.estado]}</span></div>`).join("");
+    const clasesHtml = m.clases.map(claseRowHtml).join("");
     const msg = encodeURIComponent(`Hola ${a.nombre}! Te cuento cómo vas este mes: tenés ${tomadas} clase${tomadas!==1?"s":""} realizadas y te quedan ${rest} hora${rest!==1?"s":""}. ${rest===0?"Pack completo, genial!":"Cualquier cosa me avisás."}`);
     const mesTabs = a.meses.length > 1 ? `<div class="mes-tabs" style="margin-bottom:8px">${a.meses.map((mes, j) => `<button class="mes-tab ${j===idx?"active":""}" onclick="palSetMes(${i},${j})">${mes.label}</button>`).join("")}</div>` : "";
     const [yr, mo] = m.mes.split("-").map(Number);
@@ -754,7 +837,7 @@ function renderPalomaView() {
         <div class="pal-estado ${estClass}">${estTxt}</div>
       </div>
       ${mesTabs}
-      ${`<div class="pago-card" style="margin-bottom:8px;font-size:12px">Este mes paga <strong>AR$${aPagar}</strong>${m.descuento>0?` (descuento AR$${m.descuento})`:""}<br><span style="font-size:11px;color:var(--muted)">Precio por hora: AR$${m.precioHora}</span></div>`}
+      ${m.acumulaDesdeMesAnterior ? `<div class="pago-card" style="margin-bottom:8px;font-size:12px">Este mes <strong>ya pagó</strong> (continuación del pack)</div>` : `<div class="pago-card" style="margin-bottom:8px;font-size:12px">Este mes paga <strong>AR$${aPagar}</strong>${m.descuento>0?` (descuento AR$${m.descuento})`:""}<br><span style="font-size:11px;color:var(--muted)">Precio por hora: AR$${m.precioHora}</span></div>`}
       <div class="pal-nums"><span>${tomadas} realizadas</span><span>${rest} restantes de ${packTotal}hs</span></div>
       <div class="pal-barra-track"><div class="pal-barra-fill ${verde?"verde":""}" style="width:${pct}%"></div></div>
       <button class="toggle-btn" onclick="palToggle(${i})">${palExp[i]?"Ocultar detalle ▲":"Ver clases y calendario ▼"}</button>
